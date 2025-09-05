@@ -1,9 +1,6 @@
 package com.nlksnc.api.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,4 +20,7 @@ public class User extends BaseEntity {
     private String surname;
     private String email;
     private String phone;
+    private String password;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }
