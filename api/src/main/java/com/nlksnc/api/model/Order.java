@@ -18,7 +18,7 @@ import java.util.List;
 @SuperBuilder
 public class Order extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
