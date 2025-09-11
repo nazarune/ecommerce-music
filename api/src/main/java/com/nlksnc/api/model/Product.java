@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 public class Product extends BaseEntity {
     private String name;
     private String description;
-    private Long barcode;
+    private String barcode;
     private BigDecimal price;
     private Integer stock;
 }
