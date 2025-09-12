@@ -31,6 +31,13 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Override
     public User login(UserLogInDto userLogInDto) {
-        return userRepository.findByEmail(userLogInDto.getEmail()).orElseThrow();
+        if (userRepository.findByEmail(userLogInDto.getEmail()).isEmpty()) {
+            throw new RuntimeException();
+        }
+        User user = userRepository.findByEmail(userLogInDto.getEmail()).get();
+        if(!passwordEncoder.matches(userLogInDto.getPassword(), user.getPassword())) {
+            throw new RuntimeException();
+        }
+        return user;
     }
 }

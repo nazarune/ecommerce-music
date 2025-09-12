@@ -15,13 +15,13 @@ public class UserController {
 
     @GetMapping("/{id}")
     public UserDto getUserById(@PathVariable Long id) {
-        var user = userService.getByIdOrThrow(id);
+        var user = userService.findById(id);
         return userMapper.toDto(user);
     }
 
     @GetMapping("/email")
     public UserDto getUserByEmail(@RequestParam String email) {
-        var user = userService.getByEmailOrThrow(email);
+        var user = userService.findByEmail(email);
         return userMapper.toDto(user);
     }
 
