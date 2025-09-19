@@ -17,23 +17,23 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
     @Override
-    public Product findById(Long id) {
-        return productRepository.findById(id).orElseThrow();
+    public ProductDto findById(Long id) {
+        return productMapper.toDto(productRepository.findById(id).orElseThrow());
     }
 
     @Override
     @Transactional
-    public Product create(ProductDto product) {
-        var productEntity = productMapper.toEntity(product);
-        return productRepository.save(productEntity);
+    public ProductDto create(ProductDto product) {
+        Product productEntity = productMapper.toEntity(product);
+        return productMapper.toDto(productRepository.save(productEntity));
     }
 
     @Override
     @Transactional
-    public Product update(Long id, ProductDto product) {
+    public ProductDto update(Long id, ProductDto product) {
         Product existing = productRepository.findById(id).orElseThrow();
         BeanUtils.copyProperties(product, existing, "id");
-        return productRepository.save(existing);
+        return productMapper.toDto(productRepository.save(existing));
     }
 
     @Override

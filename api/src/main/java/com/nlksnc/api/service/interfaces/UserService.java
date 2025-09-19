@@ -1,8 +1,8 @@
 package com.nlksnc.api.service.interfaces;
 
-import com.nlksnc.api.model.User;
+import com.nlksnc.api.dto.UserDto;
 
 public interface UserService {
-    User findById(Long id);
-    User findByEmail(String email);
+    UserDto findById(Long id);
+    UserDto findByEmail(String email);
 }

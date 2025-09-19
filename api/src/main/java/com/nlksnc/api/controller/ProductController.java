@@ -1,7 +1,6 @@
 package com.nlksnc.api.controller;
 
 import com.nlksnc.api.dto.ProductDto;
-import com.nlksnc.api.mapper.ProductMapper;
 import com.nlksnc.api.service.interfaces.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,22 +10,21 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
-    private final ProductMapper productMapper;
 
     @GetMapping("/{id}")
     public ProductDto get(@PathVariable Long id) {
-        return productMapper.toDto(productService.findById(id));
+        return productService.findById(id);
     }
 
     @PostMapping
     public ProductDto create(@RequestBody ProductDto productDto) {
-        return productMapper.toDto(productService.create(productDto));
+        return productService.create(productDto);
     }
 
     @PutMapping("/{id}")
     public ProductDto update(@PathVariable Long id,
             @RequestBody ProductDto productDto) {
-        return productMapper.toDto(productService.update(id, productDto));
+        return productService.update(id, productDto);
     }
 
     @DeleteMapping("/{id}")

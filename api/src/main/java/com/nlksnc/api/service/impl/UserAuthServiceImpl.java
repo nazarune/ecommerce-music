@@ -1,7 +1,9 @@
 package com.nlksnc.api.service.impl;
 
+import com.nlksnc.api.dto.UserDto;
 import com.nlksnc.api.dto.UserLogInDto;
 import com.nlksnc.api.dto.UserSignUpDto;
+import com.nlksnc.api.mapper.UserMapper;
 import com.nlksnc.api.mapper.UserSignUpMapper;
 import com.nlksnc.api.model.Role;
 import com.nlksnc.api.model.User;
@@ -15,22 +17,23 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserAuthServiceImpl implements UserAuthService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final UserSignUpMapper userSignUpMapper;
 
     @Override
-    public User register(UserSignUpDto userSignUpDto) {
+    public UserDto register(UserSignUpDto userSignUpDto) {
         if (userRepository.findByEmail(userSignUpDto.getEmail()).isPresent()) {
             throw new RuntimeException();
         }
         User user = userSignUpMapper.toEntity(userSignUpDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.CUSTOMER);
-        return userRepository.save(user);
+        return userMapper.toDto(userRepository.save(user));
     }
 
     @Override
-    public User login(UserLogInDto userLogInDto) {
+    public UserDto login(UserLogInDto userLogInDto) {
         if (userRepository.findByEmail(userLogInDto.getEmail()).isEmpty()) {
             throw new RuntimeException();
         }
@@ -38,6 +41,6 @@ public class UserAuthServiceImpl implements UserAuthService {
         if(!passwordEncoder.matches(userLogInDto.getPassword(), user.getPassword())) {
             throw new RuntimeException();
         }
-        return user;
+        return userMapper.toDto(user);
     }
 }
