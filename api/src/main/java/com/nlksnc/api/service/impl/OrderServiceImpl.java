@@ -30,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderDto save(OrderDto orderDto) {
         Order order = orderMapper.toEntity(orderDto);
-        if(order.getOrderItems() != null) {
+        if (order.getOrderItems() != null) {
             for (OrderItem orderItem : order.getOrderItems()) {
                 orderItem.setOrder(order);
             }
@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderDto update(Long id, OrderDto orderDto) {
-        if(orderRepository.findById(id).isEmpty()) {
+        if (orderRepository.findById(id).isEmpty()) {
             throw new OrderException("Order not found with id: " + id);
         }
         return orderMapper.toDto(orderRepository.save(orderMapper.toEntity(orderDto)));
@@ -50,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void delete(Long id) {
-        if(orderRepository.findById(id).isEmpty()) {
+        if (orderRepository.findById(id).isEmpty()) {
             throw new OrderException("Order not found with id: " + id);
         }
         orderRepository.deleteById(id);

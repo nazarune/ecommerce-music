@@ -1,6 +1,6 @@
 package com.nlksnc.api.exception.wrapper;
 
-public class EmailException extends  RuntimeException {
+public class EmailException extends RuntimeException {
     private EmailException() {
         super();
     }

@@ -40,7 +40,7 @@ public class UserAuthServiceImpl implements UserAuthService {
             throw new EmailException("User with email: " + userLogInDto.getEmail() + " not found");
         }
         User user = userRepository.findByEmail(userLogInDto.getEmail()).get();
-        if(!passwordEncoder.matches(userLogInDto.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(userLogInDto.getPassword(), user.getPassword())) {
             throw new PasswordException("Wrong password");
         }
         return userMapper.toDto(user);
