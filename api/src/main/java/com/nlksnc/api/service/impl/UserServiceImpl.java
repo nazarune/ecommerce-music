@@ -1,6 +1,7 @@
 package com.nlksnc.api.service.impl;
 
 import com.nlksnc.api.dto.UserDto;
+import com.nlksnc.api.exception.wrapper.UserException;
 import com.nlksnc.api.mapper.UserMapper;
 import com.nlksnc.api.repository.UserRepository;
 import com.nlksnc.api.service.interfaces.UserService;
@@ -15,12 +16,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findById(Long id) {
-        return userMapper.toDto(userRepository.findById(id).orElseThrow());
+        return userMapper.toDto(userRepository.findById(id).orElseThrow(
+                () -> new UserException("User not found with id: " + id)
+        ));
     }
 
     @Override
     public UserDto findByEmail(String email) {
-        return userMapper.toDto(userRepository.findByEmail(email).orElseThrow());
+        return userMapper.toDto(userRepository.findByEmail(email).orElseThrow(
+                () -> new UserException("User not found with email: " + email)
+        ));
     }
 
 }

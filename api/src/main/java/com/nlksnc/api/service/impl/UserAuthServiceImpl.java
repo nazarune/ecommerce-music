@@ -3,6 +3,8 @@ package com.nlksnc.api.service.impl;
 import com.nlksnc.api.dto.UserDto;
 import com.nlksnc.api.dto.UserLogInDto;
 import com.nlksnc.api.dto.UserSignUpDto;
+import com.nlksnc.api.exception.wrapper.EmailException;
+import com.nlksnc.api.exception.wrapper.PasswordException;
 import com.nlksnc.api.mapper.UserMapper;
 import com.nlksnc.api.mapper.UserSignUpMapper;
 import com.nlksnc.api.model.Role;
@@ -24,7 +26,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     @Override
     public UserDto register(UserSignUpDto userSignUpDto) {
         if (userRepository.findByEmail(userSignUpDto.getEmail()).isPresent()) {
-            throw new RuntimeException();
+            throw new EmailException("User with email: " + userSignUpDto.getEmail() + " already exists");
         }
         User user = userSignUpMapper.toEntity(userSignUpDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -35,11 +37,11 @@ public class UserAuthServiceImpl implements UserAuthService {
     @Override
     public UserDto login(UserLogInDto userLogInDto) {
         if (userRepository.findByEmail(userLogInDto.getEmail()).isEmpty()) {
-            throw new RuntimeException();
+            throw new EmailException("User with email: " + userLogInDto.getEmail() + " not found");
         }
         User user = userRepository.findByEmail(userLogInDto.getEmail()).get();
         if(!passwordEncoder.matches(userLogInDto.getPassword(), user.getPassword())) {
-            throw new RuntimeException();
+            throw new PasswordException("Wrong password");
         }
         return userMapper.toDto(user);
     }

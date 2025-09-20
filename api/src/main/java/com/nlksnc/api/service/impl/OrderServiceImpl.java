@@ -1,6 +1,7 @@
 package com.nlksnc.api.service.impl;
 
 import com.nlksnc.api.dto.OrderDto;
+import com.nlksnc.api.exception.wrapper.OrderException;
 import com.nlksnc.api.mapper.OrderMapper;
 import com.nlksnc.api.model.Order;
 import com.nlksnc.api.model.OrderItem;
@@ -20,7 +21,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto findById(Long id) {
-        return orderMapper.toDto(orderRepository.findById(id).orElseThrow());
+        return orderMapper.toDto(orderRepository.findById(id).orElseThrow(
+                () -> new OrderException("Order not found with id: " + id)
+        ));
     }
 
     @Override
@@ -40,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderDto update(Long id, OrderDto orderDto) {
         if(orderRepository.findById(id).isEmpty()) {
-            throw new RuntimeException();
+            throw new OrderException("Order not found with id: " + id);
         }
         return orderMapper.toDto(orderRepository.save(orderMapper.toEntity(orderDto)));
     }
@@ -48,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void delete(Long id) {
         if(orderRepository.findById(id).isEmpty()) {
-            throw new RuntimeException();
+            throw new OrderException("Order not found with id: " + id);
         }
         orderRepository.deleteById(id);
     }

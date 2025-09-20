@@ -1,6 +1,7 @@
 package com.nlksnc.api.service.impl;
 
 import com.nlksnc.api.dto.ProductDto;
+import com.nlksnc.api.exception.wrapper.ProductException;
 import com.nlksnc.api.mapper.ProductMapper;
 import com.nlksnc.api.model.Product;
 import com.nlksnc.api.repository.ProductRepository;
@@ -18,7 +19,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto findById(Long id) {
-        return productMapper.toDto(productRepository.findById(id).orElseThrow());
+        return productMapper.toDto(productRepository.findById(id).orElseThrow(
+                () -> new ProductException("Product not found with id: " + id)
+        ));
     }
 
     @Override
@@ -39,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void delete(Long id) {
         if(productRepository.findById(id).isEmpty()) {
-            throw new RuntimeException();
+            throw new ProductException("Product not found with id: " + id);
         }
         productRepository.deleteById(id);
     }
