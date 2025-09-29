@@ -1,12 +1,12 @@
-import './App.css'
+import HomePage from "./Pages/HomePage.tsx";
 
 function App() {
 
-  return (
-      <>
-          <p className="underline text-2xl">The quick brown fox...</p>
-      </>
-  )
+    return (
+        <div className="bg-gray-800 font-rubik">
+        <HomePage/>
+        </div>
+    )
 }
 
 export default App
