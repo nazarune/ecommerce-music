@@ -1,5 +1,6 @@
 import ProductCard, {type Product} from "../ProductCard/ProductCard.tsx";
 import {useEffect, useState} from "react";
+import axios from "axios";
 
 interface ProdSecProps {
     title: string
@@ -9,15 +10,11 @@ function ProductSection({title} : ProdSecProps) {
     const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
-        // TODO: fetch products from API
-        const fetchedProducts: Product[] = [
-            {id: 1, name: "Vintage Vinyl", price: "25.99"},
-            {id: 2, name: "Modern CD", price: "14.50"},
-            {id: 3, name: "Classic Cassette", price: "9.99"},
-            {id: 4, name: "Test", price:"5.00"},
-            {id: 5, name: "SOFT ERROR", price:"29.99"}
-        ];
-        setProducts(fetchedProducts);
+        axios.get<Product[]>('/api/products')
+            .then(res =>
+            setProducts(res.data.slice(0,5)))
+            .catch(err =>
+            console.error('Error fetching products:', err))
     }, []);
 
     return (

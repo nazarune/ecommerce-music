@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -22,6 +24,11 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.toDto(productRepository.findById(id).orElseThrow(
                 () -> new ProductException("Product not found with id: " + id)
         ));
+    }
+
+    @Override
+    public List<ProductDto> findAll() {
+        return productMapper.toDtos(productRepository.findAll());
     }
 
     @Override

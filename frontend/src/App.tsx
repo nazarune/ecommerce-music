@@ -1,10 +1,11 @@
-import HomePage from "./Pages/HomePage.tsx";
+import {RouterProvider} from "react-router-dom";
+import {router} from "./Router.tsx";
 
 function App() {
 
     return (
         <div className="bg-gray-800 font-rubik">
-        <HomePage/>
+            <RouterProvider router={router}/>
         </div>
     )
 }
