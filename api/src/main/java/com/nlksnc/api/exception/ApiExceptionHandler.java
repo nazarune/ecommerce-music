@@ -4,6 +4,7 @@ import com.nlksnc.api.exception.wrapper.EmailException;
 import com.nlksnc.api.exception.wrapper.OrderException;
 import com.nlksnc.api.exception.wrapper.PasswordException;
 import com.nlksnc.api.exception.wrapper.ProductException;
+import com.nlksnc.api.exception.wrapper.RoleException;
 import com.nlksnc.api.exception.wrapper.UserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,8 @@ public class ApiExceptionHandler {
             OrderException.class,
             PasswordException.class,
             ProductException.class,
-            UserException.class
+            UserException.class,
+            RoleException.class
     })
     public <T extends RuntimeException> ResponseEntity<ExceptionMessage> handleApiException(T e) {
         return new ResponseEntity<>(

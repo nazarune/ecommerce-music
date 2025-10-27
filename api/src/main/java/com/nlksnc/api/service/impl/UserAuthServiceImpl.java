@@ -7,13 +7,15 @@ import com.nlksnc.api.exception.wrapper.EmailException;
 import com.nlksnc.api.exception.wrapper.PasswordException;
 import com.nlksnc.api.mapper.UserMapper;
 import com.nlksnc.api.mapper.UserSignUpMapper;
-import com.nlksnc.api.model.Role;
 import com.nlksnc.api.model.User;
 import com.nlksnc.api.repository.UserRepository;
+import com.nlksnc.api.service.interfaces.RoleService;
 import com.nlksnc.api.service.interfaces.UserAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +24,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final UserSignUpMapper userSignUpMapper;
+    private final RoleService roleService;
 
     @Override
     public UserDto register(UserSignUpDto userSignUpDto) {
@@ -30,7 +33,7 @@ public class UserAuthServiceImpl implements UserAuthService {
         }
         User user = userSignUpMapper.toEntity(userSignUpDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(Role.CUSTOMER);
+        user.setRoles(roleService.findRole("CUSTOMER").stream().collect(Collectors.toSet()));
         return userMapper.toDto(userRepository.save(user));
     }
 

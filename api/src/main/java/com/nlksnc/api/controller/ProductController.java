@@ -3,7 +3,6 @@ package com.nlksnc.api.controller;
 import com.nlksnc.api.dto.ProductDto;
 import com.nlksnc.api.service.interfaces.ProductService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +38,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ProductDto> update(@PathVariable Long id,
-                             @RequestBody ProductDto productDto) {
+                                             @RequestBody ProductDto productDto) {
         return ResponseEntity.ok(productService.update(id, productDto));
     }
 
