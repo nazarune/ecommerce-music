@@ -62,6 +62,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/orders/**").authenticated()
                                 .requestMatchers("/role/**").hasAuthority("ADMIN")
                                 .requestMatchers("/users/**").authenticated()
+                                .requestMatchers("/v3/**", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**").permitAll()
                                 .anyRequest().authenticated())
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
